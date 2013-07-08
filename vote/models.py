@@ -1,4 +1,5 @@
 from django.db import models
+from vote.utils import sha1
 
 # Create your models here.
 
@@ -23,6 +24,10 @@ class Votante(models.Model):
 
     def __unicode__(self):
         return self.hashed
+
+    def save(self, *args, **kwargs):
+        self.hashed = sha1(self.hashed)
+        super(Votante, self).save(*args, **kwargs)
 
 
 class Habilidad(models.Model):
