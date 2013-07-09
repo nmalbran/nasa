@@ -2,6 +2,7 @@ from django.views.generic import DetailView, ListView, View
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.forms.models import modelformset_factory
+from django.db.models import Count, Min, Sum, Max, Avg
 
 from forms import VotanteForm, VotosForm
 from models import Persona, Voto, Habilidad, Votante
@@ -60,3 +61,23 @@ class AppraiseView(View):
                 }
 
         return render_to_response('appraisal_form.html', templates_vars, context_instance=RequestContext(request))
+
+
+class StatsView(View):
+    template_name= 'stats.html'
+
+    def get(self, request):
+        personas = Persona.objects.all()
+        habilidades = Habilidad.objects.all()
+
+        stats = [ [Voto.objects.filter(persona=p, habilidad=h).aggregate(Avg('valor'))['valor__avg'] for h in habilidades] for p in personas]
+
+        print stats
+
+        templates_vars = {
+            'personas': personas,
+            'habilidades': habilidades,
+            'stats': stats,
+        }
+
+        return render_to_response(self.template_name, templates_vars, context_instance=RequestContext(request))

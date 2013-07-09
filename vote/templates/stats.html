@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Nexuiz Stats</h1>
+
+<div class="centrado">
+    <div class="tabla">
+        <div class="top">
+            <div class="celda">Personas</div>
+            {% for h in habilidades %}
+                <div class="celda">{{h}}</div>
+            {% endfor %}
+        </div>
+
+        <div class="left">
+            {% for p in personas %}
+                <div class="celda">{{p}}</div>
+            {% endfor %}
+        </div>
+
+        <div class="center">
+            {% for p in stats %}
+                {% for h in p %}
+                    <div class="celda">
+                            {{h}}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
