@@ -16,7 +16,7 @@ class Persona(models.Model):
 
 
 class Votante(models.Model):
-    hashed = models.CharField('Votante', max_length=100)
+    hashed = models.CharField('Votante', max_length=100, unique=True)
 
     class Meta:
         verbose_name = 'Votante'
