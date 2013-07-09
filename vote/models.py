@@ -53,4 +53,4 @@ class Voto(models.Model):
         verbose_name_plural = 'Votos'
 
     def __unicode__(self):
-        return "V:%s, P:%s, S:%s: %d" % (self.votante, self.persona, self.habilidad, self.valor)
+        return "V:%s, P:%s, S:%s: %d" % (self.votante, self.persona, self.habilidad, self.valor or 0)

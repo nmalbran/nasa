@@ -5,6 +5,8 @@
     <form method="post">
         {% csrf_token %}
 
+        <div><p>Notas del 1 al 10</p></div>
+
         <div class="tabla">
             <div class="top">
                 <div class="celda">Personas</div>
@@ -12,15 +14,17 @@
                     <div class="celda">{{h}}</div>
                 {% endfor %}
             </div>
+
             <div class="left">
                 {% for p in personas %}
                     <div class="celda">{{p}}</div>
                 {% endfor %}
             </div>
+
             <div class="center">
-                {% for f in voto_formset %}
-                    <div class="celda">
-                            {{f.valor}}
+                {% for f in votos_form %}
+                    <div class="celda {% if f.errors %}error{% endif %}">
+                            {{f}}
                     </div>
                 {% endfor %}
             </div>
@@ -83,6 +87,11 @@ input[type=text]{
     float: left;
     padding: 2em;
     text-align: center:
+}
+
+.celda.error input{
+    color: red;
+    border: 1px solid red;
 }
 
 {% endblock extra_css %}
