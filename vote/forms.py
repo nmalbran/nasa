@@ -19,4 +19,4 @@ class VotosForm(forms.Form):
         habilidades = Habilidad.objects.all()
         for p in personas:
             for h in habilidades:
-                self.fields['%d_%d' % (p.pk, h.pk)] = forms.IntegerField(max_value=100, min_value=1)
+                self.fields['%d_%d' % (p.pk, h.pk)] = forms.IntegerField(max_value=10, min_value=1)
