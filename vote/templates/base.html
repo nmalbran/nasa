@@ -21,6 +21,10 @@
     float: left;
 }
 
+.tabla.wide{
+    width: 1050px;
+}
+
 .tabla .left{
     width: 150px;
     float: left;
@@ -29,6 +33,10 @@
 .tabla .center{
     width: 750px;
     float: left;
+}
+
+.tabla.wide .center{
+    width: 900px;
 }
 
 .tabla .celda{
@@ -45,6 +53,7 @@
 
 .tabla .left .celda{
     clear: both;
+    font-weight: bold;
     text-indent: 0.2em;
 }
 
@@ -65,6 +74,11 @@ input[type=text]{
 .celda.error input{
     color: red;
     border: 1px solid red;
+}
+
+.celda.total{
+    color: blue;
+    font-weight: bold;
 }
 
 {% block extra_css %}

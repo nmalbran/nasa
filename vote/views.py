@@ -70,14 +70,20 @@ class StatsView(View):
         personas = Persona.objects.all()
         habilidades = Habilidad.objects.all()
 
-        stats = [ [Voto.objects.filter(persona=p, habilidad=h).aggregate(Avg('valor'))['valor__avg'] for h in habilidades] for p in personas]
+        stats = []
+        for p in personas:
+            temp = [Voto.objects.filter(persona=p, habilidad=h).aggregate(Avg('valor'))['valor__avg'] for h in habilidades]
+            temp.append(Voto.objects.filter(persona=p).aggregate(Avg('valor'))['valor__avg'])
+            stats.append(temp)
 
-        print stats
+        general_stats = [Voto.objects.filter(habilidad=h).aggregate(Avg('valor'))['valor__avg'] for h in habilidades]
+        general_stats.append(Voto.objects.aggregate(Avg('valor'))['valor__avg'])
 
         templates_vars = {
             'personas': personas,
             'habilidades': habilidades,
             'stats': stats,
+            'general_stats': general_stats,
         }
 
         return render_to_response(self.template_name, templates_vars, context_instance=RequestContext(request))
