@@ -36,6 +36,7 @@ class Habilidad(models.Model):
     class Meta:
         verbose_name = 'Habilidad'
         verbose_name_plural = 'Habilidades'
+        ordering = ['nombre']
 
     def __unicode__(self):
         return self.nombre

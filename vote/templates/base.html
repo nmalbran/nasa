@@ -2,12 +2,34 @@
 <html>
 <head>
     <title>[NASA] Nexuiz's Anonymous Skill Appraisal</title>
+
+<style type="text/css">
+#container{
+    width: 100%;
+}
+#header h1{
+    text-align: center;
+}
+
+.centrado{
+    width: 95%;
+    margin: 0 auto;
+
+}
+{% block extra_css %}
+{% endblock extra_css %}
+</style>
+
 </head>
 <body>
 
-{% block content %}
-
-{% endblock content %}
+<div id="container">
+    <div id="header"><h1>[NASA] Nexuiz's Anonymous Skill Appraisal</h1></div>
+    <div id="content">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</div>
 
 </body>
 </html>

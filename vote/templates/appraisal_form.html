@@ -1,7 +1,88 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="centrado">
+    <form method="post">
+        {% csrf_token %}
 
-    {{votante_form.as_table}}
+        <div class="tabla">
+            <div class="top">
+                <div class="celda">Personas</div>
+                {% for h in habilidades %}
+                    <div class="celda">{{h}}</div>
+                {% endfor %}
+            </div>
+            <div class="left">
+                {% for p in personas %}
+                    <div class="celda">{{p}}</div>
+                {% endfor %}
+            </div>
+            <div class="center">
+                {% for f in voto_formset %}
+                    <div class="celda">
+                            {{f.valor}}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="resto">
+            {{votante_form.as_p}}
+            <input type="submit" value="Votar">
+        </div>
+    </form>
+
+</div>
+
 
 {% endblock content %}
+
+{% block extra_css %}
+
+.tabla{
+    width: 900px;
+    float: left;
+}
+
+.tabla .left{
+    width: 150px;
+    float: left;
+}
+
+.tabla .center{
+    width: 750px;
+    float: left;
+}
+
+.tabla .celda{
+    height: 2em;
+    line-height: 2em;
+    float: left;
+    min-width: 148px;
+}
+
+.tabla .top .celda{
+    text-align: center;
+    font-weight: bold;
+}
+
+.tabla .left .celda{
+    clear: both;
+    text-indent: 0.2em;
+}
+
+.tabla .center .celda{
+    text-align: center;
+}
+
+input[type=text]{
+    width: 100px;
+}
+
+.resto{
+    float: left;
+    padding: 2em;
+    text-align: center:
+}
+
+{% endblock extra_css %}
