@@ -8,11 +8,19 @@
     text-align: center;
 }
 
+#content{
+    clear: both;
+    margin-bottom: 1em;
+}
+
 .centrado{
     width: 95%;
     margin: 0 auto;
 }
 
+.clear{
+    clear: both;
+}
 
 
 /* TABLES */
@@ -87,9 +95,32 @@ input[type=text]{
 /* MENU */
 
 .menu{
-
+    clear: both;
+    margin: 1em;
+    float: left;
 }
 
 .menu ul{
     list-style: none;
+}
+
+.menu ul li{
+    float: left;
+    margin: 0.1em;
+}
+
+.menu ul li a{
+    display: block;
+    float: left;
+    padding: 0.5em;
+    border: 1px solid black;
+    color: black;
+    background: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu ul li a:hover{
+    color: white;
+    background: black;
 }
