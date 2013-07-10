@@ -92,9 +92,8 @@ class StatsView(View):
                     avg = round(temp_query.aggregate(Avg('valor'))['valor__avg'], 1)
                 temp.append(avg)
                 stats_dict["%d_%d" % (p.pk, h.pk)] = avg
-
-            t_avg = round(sum(temp, 0.0) / len(temp), 1)
-            stats_dict['%d_avg' % p.pk] = t_avg
+            temp = filter(None, temp)
+            stats_dict['%d_avg' % p.pk] = round(sum(temp, 0.0) / len(temp), 1)
 
         temp = []
         for h in habilidades:
@@ -105,8 +104,8 @@ class StatsView(View):
             temp.append(avg)
             stats_dict['avg_%d' % h.pk] = avg
 
-        t_avg = round(sum(temp, 0.0) / len(temp), 1)
-        stats_dict['avg_avg'] = t_avg
+        temp = filter(None, temp)
+        stats_dict['avg_avg'] = round(sum(temp, 0.0) / len(temp), 1)
 
         templates_vars = {
             'personas': personas,
