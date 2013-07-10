@@ -46,7 +46,7 @@ class Voto(models.Model):
     persona = models.ForeignKey('Persona')
     votante = models.ForeignKey('Votante')
     habilidad = models.ForeignKey('Habilidad')
-    valor = models.IntegerField()
+    valor = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = 'Voto'

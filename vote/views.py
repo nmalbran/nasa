@@ -51,7 +51,7 @@ class AppraiseView(View):
                 h_pk = int(key.split('_')[1])
 
                 if edit:
-                    voto = get_object_or_404(Voto, persona=personas_dict[p_pk], habilidad=habilidades_dict[h_pk], votante=votante_verify)
+                    voto, created = Voto.objects.get_or_create(persona=personas_dict[p_pk], habilidad=habilidades_dict[h_pk], votante=votante_verify)
                     voto.valor = val
                     voto.save()
                 else:
@@ -155,9 +155,11 @@ class LoadView(View):
             for p in personas:
                 for h in habilidades:
                     try:
-                        initial_data["%d_%d" % (p.pk, h.pk)] = Voto.objects.get(persona=p, habilidad=h, votante=votante).valor
+                        val = Voto.objects.get(persona=p, habilidad=h, votante=votante).valor
                     except Voto.DoesNotExist:
-                        return redirect('appraise')
+                        val = 0
+                    finally:
+                        initial_data["%d_%d" % (p.pk, h.pk)] = val
 
             votos_form = VotosForm(initial=initial_data)
 
