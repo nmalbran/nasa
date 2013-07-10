@@ -6,14 +6,13 @@
 <h2>Nexuiz Stats</h2>
 {% include 'escala.html' %}
 <div class="centrado">
-
     <table class="appraisal clear">
         <tr>
             <th>Personas</th>
             {% for h in habilidades %}
                 <th>{{h}}</th>
             {% endfor %}
-            <th>Promedio</th>
+            <th class="prom">Promedio</th>
         </tr>
         {% for p in personas %}
             <tr>
@@ -21,14 +20,15 @@
                 {% for h in habilidades %}
                     <td class=''>{% value_for_per_hab stats_dict p.pk h.pk %}</td>
                 {% endfor %}
-                <td>{% value_for_per_hab stats_dict p.pk 'avg' %}</td>
+                <td class="prom">{% value_for_per_hab stats_dict p.pk 'avg' %}</td>
             </tr>
         {% endfor %}
         <tr>
-            <th class="text-left">Promedio</th>
-            {% for gs in general_stats %}
-                <td>{{gs}}</td>
+            <th class="text-left prom">Promedio</th>
+            {% for h in habilidades %}
+                <td class="prom">{% value_for_per_hab stats_dict 'avg' h.pk %}</td>
             {% endfor %}
+            <td class="prom">{% value_for_per_hab stats_dict 'avg' 'avg' %}</td>
         </tr>
     </table>
 

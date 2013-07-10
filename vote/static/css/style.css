@@ -49,52 +49,9 @@ table.appraisal td.error input{
     color: white;
 }
 
-
-/* DIV TABLES */
-
-.tabla{
-    width: 900px;
-    float: left;
-}
-
-.tabla.wide{
-    width: 1050px;
-}
-
-.tabla .left{
-    width: 150px;
-    float: left;
-}
-
-.tabla .center{
-    width: 750px;
-    float: left;
-}
-
-.tabla.wide .center{
-    width: 900px;
-}
-
-.tabla .celda{
-    height: 2em;
-    line-height: 2em;
-    float: left;
-    min-width: 148px;
-}
-
-.tabla .top .celda{
-    text-align: center;
+table.appraisal .prom{
+    color: blue;
     font-weight: bold;
-}
-
-.tabla .left .celda{
-    clear: both;
-    font-weight: bold;
-    text-indent: 0.2em;
-}
-
-.tabla .center .celda{
-    text-align: center;
 }
 
 .resto{
@@ -103,15 +60,6 @@ table.appraisal td.error input{
     text-align: center:
 }
 
-.celda.error input{
-    color: red;
-    border: 1px solid red;
-}
-
-.celda.total{
-    color: blue;
-    font-weight: bold;
-}
 
 /* FORMS */
 

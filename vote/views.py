@@ -79,33 +79,32 @@ class StatsView(View):
         for p in personas:
             temp = []
             for h in habilidades:
-                key = "%d_%d" % (p.pk, h.pk)
                 temp_query = Voto.objects.filter(persona=p, habilidad=h).exclude(valor=0)
                 avg = 0
                 if temp_query.count() >= 3:
                     avg = temp_query.aggregate(Avg('valor'))['valor__avg']
                 temp.append(avg)
-                stats_dict[key] = avg
+                stats_dict["%d_%d" % (p.pk, h.pk)] = avg
 
             t_avg = sum(temp, 0.0) / len(temp)
             stats_dict['%d_avg' % p.pk] = t_avg
 
-        general_stats = []
+        temp = []
         for h in habilidades:
             temp_query = Voto.objects.filter(habilidad=h).exclude(valor=0)
             avg = 0
             if temp_query.count() >= 3:
                 avg = temp_query.aggregate(Avg('valor'))['valor__avg']
-            general_stats.append(avg)
+            temp.append(avg)
+            stats_dict['avg_%d' % h.pk] = avg
 
-        t_avg = sum(general_stats, 0.0) / len(general_stats)
-        general_stats.append(t_avg)
+        t_avg = sum(temp, 0.0) / len(temp)
+        stats_dict['avg_avg'] = t_avg
 
         templates_vars = {
             'personas': personas,
             'habilidades': habilidades,
             'stats_dict': stats_dict,
-            'general_stats': general_stats,
         }
 
         return render_to_response(self.template_name, templates_vars, context_instance=RequestContext(request))
