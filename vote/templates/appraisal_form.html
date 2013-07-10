@@ -7,6 +7,7 @@
         {% csrf_token %}
 
         <div><p>Notas del 1 al 10</p></div>
+        <div class="error"><p>{{errores|default:''}}</p></div>
 
         <div class="tabla">
             <div class="top">

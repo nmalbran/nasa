@@ -51,6 +51,8 @@ class Voto(models.Model):
     class Meta:
         verbose_name = 'Voto'
         verbose_name_plural = 'Votos'
+        unique_together = ("persona", "votante", 'habilidad')
+        ordering = ['votante', 'persona', 'habilidad']
 
     def __unicode__(self):
         return "V:%s, P:%s, S:%s: %d" % (self.votante, self.persona, self.habilidad, self.valor or 0)

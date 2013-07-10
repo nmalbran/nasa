@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.forms.models import modelformset_factory
 from django.db.models import Count, Min, Sum, Max, Avg
+from django.db import IntegrityError
 
 from forms import VotanteForm, VotosForm, ChangeUserForm
 from models import Persona, Voto, Habilidad, Votante
@@ -30,6 +31,7 @@ class AppraiseView(View):
         votos_form = VotosForm(request.POST)
         habilidades = Habilidad.objects.all()
         personas = Persona.objects.all()
+        errores = ''
 
         if votos_form.is_valid() and votante_form.is_valid():
             votante_verify = Votante.objects.get(hashed=sha1(votante_form.cleaned_data['hashed']))
@@ -46,14 +48,21 @@ class AppraiseView(View):
                 p_pk = int(key.split('_')[0])
                 h_pk = int(key.split('_')[1])
 
-                Voto(persona=personas_dict[p_pk], habilidad=habilidades_dict[h_pk], votante=votante_verify, valor=val).save()
-            return redirect('stats')
+                try:
+                    Voto(persona=personas_dict[p_pk], habilidad=habilidades_dict[h_pk], votante=votante_verify, valor=val).save()
+                except IntegrityError:
+                    errores = 'Ya votaste!!'
+                    break
+
+            if not errores:
+                return redirect('stats')
 
         templates_vars = {
                 'personas': personas,
                 'habilidades': habilidades,
                 'votante_form': votante_form,
                 'votos_form': votos_form,
+                'errores': errores,
                 }
 
         return render_to_response('appraisal_form.html', templates_vars, context_instance=RequestContext(request))

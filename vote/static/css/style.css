@@ -92,6 +92,12 @@ input[type=text]{
     width: 100px;
 }
 
+div.error p{
+    color: red;
+    font-size: 2em;
+    font-weight: bold;
+}
+
 /* MENU */
 
 .menu{
