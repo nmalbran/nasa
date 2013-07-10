@@ -4,7 +4,7 @@
 {% block content %}
 <div class="centrado clear">
 <h2>Appraisal</h2>
-    <form method="post">
+    <form method="post" action="{% url 'appraise' %}">
         {% csrf_token %}
 
         {% include 'escala.html' %}

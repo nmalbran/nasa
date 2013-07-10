@@ -15,11 +15,14 @@ class VotanteForm(forms.ModelForm):
     def clean_hashed(self):
         hashed = self.cleaned_data.get('hashed')
         try:
-            votante = Votante.objects.get(hashed=sha1(hashed))
+            self._votante_obj = Votante.objects.get(hashed=sha1(hashed))
         except Votante.DoesNotExist:
             raise forms.ValidationError('This user does not exist.')
 
         return hashed
+
+    def get_votante(self):
+        return self._votante_obj or None
 
 
 class VotosForm(forms.Form):
@@ -41,11 +44,14 @@ class ChangeUserForm(forms.Form):
     def clean_old_user(self):
         old_user = self.cleaned_data.get('old_user')
         try:
-            votante = Votante.objects.get(hashed=sha1(old_user))
+            self._old_user_obj = Votante.objects.get(hashed=sha1(old_user))
         except Votante.DoesNotExist:
             raise forms.ValidationError('This user does not exist.')
 
         return old_user
+
+    def get_old_user(self):
+        return self._old_user_obj or None
 
     def clean(self):
         cleaned_data = super(ChangeUserForm, self).clean()

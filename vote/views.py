@@ -7,7 +7,6 @@ from django.db import IntegrityError
 
 from forms import VotanteForm, VotosForm, ChangeUserForm
 from models import Persona, Voto, Habilidad, Votante
-from utils import sha1
 
 class AppraiseView(View):
 
@@ -34,7 +33,7 @@ class AppraiseView(View):
         errores = ''
 
         if votos_form.is_valid() and votante_form.is_valid():
-            votante_verify = Votante.objects.get(hashed=sha1(votante_form.cleaned_data['hashed']))
+            votante_verify = votante_form.get_votante()
 
             personas_dict = {}
             for p in personas:
@@ -122,9 +121,35 @@ class ChangeUserView(View):
             old_user = form.cleaned_data.get('old_user')
             new_user1 = form.cleaned_data.get('new_user1')
 
-            votante = Votante.objects.get(hashed=sha1(old_user))
+            votante = form.get_old_user()
             votante.hashed = new_user1
             votante.save()
             return redirect('stats')
+
+        return render_to_response(self.template_name, {'form': form}, context_instance=RequestContext(request))
+
+
+class LoadView(View):
+    template_name = 'load.html'
+
+    def get(self, request):
+        return render_to_response(self.template_name, {'form': VotanteForm()}, context_instance=RequestContext(request))
+
+    def post(self, request):
+        form = VotanteForm(request.POST)
+        if form.is_valid():
+            votante = form.get_votante()
+            personas = Persona.objects.all()
+            habilidades = Habilidad.objects.all()
+            votante_form = VotanteForm()
+            votos_form = VotosForm()
+
+            templates_vars = {
+                'personas': personas,
+                'habilidades': habilidades,
+                'votante_form': votante_form,
+                'votos_form': votos_form,
+                }
+            return render_to_response('appraisal_form.html', templates_vars, context_instance=RequestContext(request))
 
         return render_to_response(self.template_name, {'form': form}, context_instance=RequestContext(request))
