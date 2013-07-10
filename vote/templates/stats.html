@@ -1,37 +1,36 @@
 {% extends "base.html" %}
+{% load nasa_tags %}
 
 {% block content %}
 
 <h2>Nexuiz Stats</h2>
 {% include 'escala.html' %}
 <div class="centrado">
-    <div class="tabla wide">
-        <div class="top">
-            <div class="celda">Personas</div>
+
+    <table class="appraisal clear">
+        <tr>
+            <th>Personas</th>
             {% for h in habilidades %}
-                <div class="celda">{{h}}</div>
+                <th>{{h}}</th>
             {% endfor %}
-            <div class="celda total">Promedio</div>
-        </div>
-
-        <div class="left">
-            {% for p in personas %}
-                <div class="celda">{{p}}</div>
-            {% endfor %}
-            <div class="celda total">Promedio</div>
-        </div>
-
-        <div class="center">
-            {% for p in stats %}
-                {% for h in p %}
-                    <div class="celda">{{h}}</div>
+            <th>Promedio</th>
+        </tr>
+        {% for p in personas %}
+            <tr>
+                <th class="text-left">{{p}}</th>
+                {% for h in habilidades %}
+                    <td class=''>{% value_for_per_hab stats_dict p.pk h.pk %}</td>
                 {% endfor %}
-            {% endfor %}
+                <td>{% value_for_per_hab stats_dict p.pk 'avg' %}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th class="text-left">Promedio</th>
             {% for gs in general_stats %}
-                <div class="celda total">{{gs}}</div>
+                <td>{{gs}}</td>
             {% endfor %}
-        </div>
-    </div>
+        </tr>
+    </table>
 
 </div>
 

@@ -15,3 +15,8 @@ def css_error_field_for_per_hab(form, persona, habilidad):
         return 'error'
     else:
         return ''
+
+@register.simple_tag
+def value_for_per_hab(stats, persona, habilidad):
+    key = "%s_%s" % (str(persona), str(habilidad))
+    return stats[key]
