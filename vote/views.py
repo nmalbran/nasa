@@ -34,6 +34,7 @@ class AppraiseView(View):
 
         if votos_form.is_valid() and votante_form.is_valid():
             votante_verify = votante_form.get_votante()
+            edit = votos_form.cleaned_data['edit']
 
             personas_dict = {}
             for p in personas:
@@ -44,14 +45,21 @@ class AppraiseView(View):
                 habilidades_dict[h.pk] = h
 
             for (key, val) in votos_form.cleaned_data.items():
+                if key == 'edit':
+                    continue
                 p_pk = int(key.split('_')[0])
                 h_pk = int(key.split('_')[1])
 
-                try:
-                    Voto(persona=personas_dict[p_pk], habilidad=habilidades_dict[h_pk], votante=votante_verify, valor=val).save()
-                except IntegrityError:
-                    errores = 'Ya votaste!!'
-                    break
+                if edit:
+                    voto = get_object_or_404(Voto, persona=personas_dict[p_pk], habilidad=habilidades_dict[h_pk], votante=votante_verify)
+                    voto.valor = val
+                    voto.save()
+                else:
+                    try:
+                        Voto(persona=personas_dict[p_pk], habilidad=habilidades_dict[h_pk], votante=votante_verify, valor=val).save()
+                    except IntegrityError:
+                        errores = 'Ya votaste!!'
+                        break
 
             if not errores:
                 return redirect('stats')
@@ -142,7 +150,16 @@ class LoadView(View):
             personas = Persona.objects.all()
             habilidades = Habilidad.objects.all()
             votante_form = VotanteForm()
-            votos_form = VotosForm()
+            initial_data = {'edit': True}
+
+            for p in personas:
+                for h in habilidades:
+                    try:
+                        initial_data["%d_%d" % (p.pk, h.pk)] = Voto.objects.get(persona=p, habilidad=h, votante=votante).valor
+                    except Voto.DoesNotExist:
+                        return redirect('appraise')
+
+            votos_form = VotosForm(initial=initial_data)
 
             templates_vars = {
                 'personas': personas,

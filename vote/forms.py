@@ -26,6 +26,8 @@ class VotanteForm(forms.ModelForm):
 
 
 class VotosForm(forms.Form):
+    edit = forms.BooleanField(initial=False)
+
     def __init__(self, *args, **kwargs):
         super(VotosForm, self).__init__(*args, **kwargs)
         personas = Persona.objects.all()
