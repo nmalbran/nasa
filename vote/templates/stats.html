@@ -3,6 +3,7 @@
 
 {% block content %}
 
+<div class="centrado clear">
 <h2>Nexuiz Stats</h2>
 {% include 'escala.html' %}
 <div class="centrado">
@@ -31,7 +32,6 @@
             <td class="prom">{% value_for_per_hab stats_dict 'avg' 'avg' %}</td>
         </tr>
     </table>
-
 </div>
-
+</div>
 {% endblock content %}
