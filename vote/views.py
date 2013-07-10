@@ -77,11 +77,19 @@ class StatsView(View):
 
         stats = []
         for p in personas:
-            temp = [Voto.objects.filter(persona=p, habilidad=h).aggregate(Avg('valor'))['valor__avg'] for h in habilidades]
-            temp.append(Voto.objects.filter(persona=p).aggregate(Avg('valor'))['valor__avg'])
+            temp = []
+            for h in habilidades:
+                temp_query = Voto.objects.filter(persona=p, habilidad=h).exclude(valor=0)
+                avg = 0
+                if temp_query.count() >= 3:
+                    avg = temp_query.aggregate(Avg('valor'))['valor__avg']
+                temp.append(avg)
+
+            t_avg = sum(temp, 0.0) / len(temp)
+            temp.append(t_avg)
             stats.append(temp)
 
-        general_stats = [Voto.objects.filter(habilidad=h).aggregate(Avg('valor'))['valor__avg'] for h in habilidades]
+        general_stats = [Voto.objects.filter(habilidad=h).exclude(valor=0).aggregate(Avg('valor'))['valor__avg'] for h in habilidades]
         general_stats.append(Voto.objects.aggregate(Avg('valor'))['valor__avg'])
 
         templates_vars = {

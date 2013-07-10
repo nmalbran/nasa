@@ -3,7 +3,7 @@
 {% block content %}
 
 <h2>Nexuiz Stats</h2>
-
+{% include 'escala.html' %}
 <div class="centrado">
     <div class="tabla wide">
         <div class="top">
@@ -11,14 +11,14 @@
             {% for h in habilidades %}
                 <div class="celda">{{h}}</div>
             {% endfor %}
-            <div class="celda total">Total</div>
+            <div class="celda total">Promedio</div>
         </div>
 
         <div class="left">
             {% for p in personas %}
                 <div class="celda">{{p}}</div>
             {% endfor %}
-            <div class="celda total">Total</div>
+            <div class="celda total">Promedio</div>
         </div>
 
         <div class="center">
@@ -32,6 +32,7 @@
             {% endfor %}
         </div>
     </div>
+
 </div>
 
 {% endblock content %}
