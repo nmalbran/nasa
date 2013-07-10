@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load nasa_tags %}
 
 {% block content %}
 <div class="centrado clear">
@@ -9,34 +10,31 @@
         <div><p>Notas del 1 al 10</p></div>
         <div class="error"><p>{{errores|default:''}}</p></div>
 
-        <div class="tabla">
-            <div class="top">
-                <div class="celda">Personas</div>
+        <table class="appraisal clear">
+            <tr>
+                <th>Personas</th>
                 {% for h in habilidades %}
-                    <div class="celda">{{h}}</div>
+                    <th>{{h}}</th>
                 {% endfor %}
-            </div>
-
-            <div class="left">
-                {% for p in personas %}
-                    <div class="celda">{{p}}</div>
-                {% endfor %}
-            </div>
-
-            <div class="center">
-                {% for f in votos_form %}
-                    <div class="celda {% if f.errors %}error{% endif %}">
-                            {{f}}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
+            </tr>
+            {% for p in personas %}
+                <tr>
+                    <th class="text-left">{{p}}</th>
+                    {% for h in habilidades %}
+                        <td class='{% css_error_field_for_per_hab votos_form p h %}'>{% field_for_per_hab votos_form p h %}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
 
         <div class="resto">
             {{votante_form.as_p}}
             <input type="submit" value="Votar">
         </div>
     </form>
+
+
+
 
 </div>
 

@@ -22,8 +22,35 @@
     clear: both;
 }
 
-
 /* TABLES */
+
+table.appraisal{
+    padding: 1em;
+    border-collapse:collapse;
+}
+
+table.appraisal td,
+table.appraisal th{
+    vertical-align:bottom;
+    padding: 0.1em 1em;
+}
+
+table.appraisal th.text-left{
+    text-align: left;
+}
+
+table.appraisal tr{
+    text-align: center;
+    padding: 0.3em;
+}
+
+table.appraisal td.error input{
+    background: #FF6666;
+    color: white;
+}
+
+
+/* DIV TABLES */
 
 .tabla{
     width: 900px;
@@ -88,8 +115,9 @@
 
 /* FORMS */
 
-input[type=text]{
-    width: 100px;
+input.num-field{
+    width: 3em;
+    text-align: center;
 }
 
 div.error p{
