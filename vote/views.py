@@ -82,11 +82,11 @@ class StatsView(View):
                 temp_query = Voto.objects.filter(persona=p, habilidad=h).exclude(valor=0)
                 avg = 0
                 if temp_query.count() >= 3:
-                    avg = temp_query.aggregate(Avg('valor'))['valor__avg']
+                    avg = round(temp_query.aggregate(Avg('valor'))['valor__avg'], 1)
                 temp.append(avg)
                 stats_dict["%d_%d" % (p.pk, h.pk)] = avg
 
-            t_avg = sum(temp, 0.0) / len(temp)
+            t_avg = round(sum(temp, 0.0) / len(temp), 1)
             stats_dict['%d_avg' % p.pk] = t_avg
 
         temp = []
@@ -94,11 +94,11 @@ class StatsView(View):
             temp_query = Voto.objects.filter(habilidad=h).exclude(valor=0)
             avg = 0
             if temp_query.count() >= 3:
-                avg = temp_query.aggregate(Avg('valor'))['valor__avg']
+                avg = round(temp_query.aggregate(Avg('valor'))['valor__avg'], 1)
             temp.append(avg)
             stats_dict['avg_%d' % h.pk] = avg
 
-        t_avg = sum(temp, 0.0) / len(temp)
+        t_avg = round(sum(temp, 0.0) / len(temp), 1)
         stats_dict['avg_avg'] = t_avg
 
         templates_vars = {
