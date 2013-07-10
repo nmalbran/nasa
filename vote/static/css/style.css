@@ -27,12 +27,13 @@
 table.appraisal{
     padding: 1em;
     border-collapse:collapse;
+    border: 1px solid black;
 }
 
 table.appraisal td,
 table.appraisal th{
     vertical-align:bottom;
-    padding: 0.1em 1em;
+    padding: 0.3em 1em;
 }
 
 table.appraisal th.text-left{
@@ -42,6 +43,7 @@ table.appraisal th.text-left{
 table.appraisal tr{
     text-align: center;
     padding: 0.3em;
+    border-bottom: 1px solid black;
 }
 
 table.appraisal td.error input{
