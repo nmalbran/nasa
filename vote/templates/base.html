@@ -1,89 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>[NASA] Nexuiz's Anonymous Skill Appraisal</title>
 
-<style type="text/css">
-#container{
-    width: 100%;
-}
-#header h1{
-    text-align: center;
-}
-
-.centrado{
-    width: 95%;
-    margin: 0 auto;
-}
-
-.tabla{
-    width: 900px;
-    float: left;
-}
-
-.tabla.wide{
-    width: 1050px;
-}
-
-.tabla .left{
-    width: 150px;
-    float: left;
-}
-
-.tabla .center{
-    width: 750px;
-    float: left;
-}
-
-.tabla.wide .center{
-    width: 900px;
-}
-
-.tabla .celda{
-    height: 2em;
-    line-height: 2em;
-    float: left;
-    min-width: 148px;
-}
-
-.tabla .top .celda{
-    text-align: center;
-    font-weight: bold;
-}
-
-.tabla .left .celda{
-    clear: both;
-    font-weight: bold;
-    text-indent: 0.2em;
-}
-
-.tabla .center .celda{
-    text-align: center;
-}
-
-input[type=text]{
-    width: 100px;
-}
-
-.resto{
-    float: left;
-    padding: 2em;
-    text-align: center:
-}
-
-.celda.error input{
-    color: red;
-    border: 1px solid red;
-}
-
-.celda.total{
-    color: blue;
-    font-weight: bold;
-}
-
-{% block extra_css %}
-{% endblock extra_css %}
-</style>
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <style type="text/css">
+    {% block extra_css %}
+    {% endblock extra_css %}
+    </style>
 
 </head>
 <body>
