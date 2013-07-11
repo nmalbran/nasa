@@ -109,11 +109,13 @@ class StatsView(View):
         stats_dict['avg_avg'] = round(sum(temp, 0.0) / (len(temp) or 1), 1)
 
         number_of_votes = Voto.objects.count() / (personas.count() * habilidades.count()) or 1
+        number_of_voters = Votante.objects.count()
         templates_vars = {
             'personas': personas,
             'habilidades': habilidades,
             'stats_dict': stats_dict,
             'votes': number_of_votes,
+            'voters': number_of_voters,
         }
 
         return render_to_response(self.template_name, templates_vars, context_instance=RequestContext(request))
