@@ -1,7 +1,6 @@
+import hashlib
 from django.db import models
-from vote.utils import sha1
 
-# Create your models here.
 
 class Persona(models.Model):
     nombre = models.CharField(max_length=50)
@@ -26,8 +25,18 @@ class Votante(models.Model):
         return self.hashed
 
     def save(self, *args, **kwargs):
-        self.hashed = sha1(self.hashed)
+        self.hashed = self._hash(self.hashed)
         super(Votante, self).save(*args, **kwargs)
+
+    @classmethod
+    def get_votante(cls, name):
+        return cls.objects.get(hashed=cls._hash(name))
+
+    @classmethod
+    def _hash(self, val):
+        h = hashlib.sha1()
+        h.update(val)
+        return h.hexdigest()
 
 
 class Habilidad(models.Model):

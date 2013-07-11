@@ -7,6 +7,7 @@ from django.db import IntegrityError
 
 from forms import VotanteForm, VotosForm, ChangeUserForm
 from models import Persona, Voto, Habilidad, Votante
+from settings import MIN_VOTES_FOR_DISPLAY
 
 class AppraiseView(View):
 
@@ -88,24 +89,24 @@ class StatsView(View):
             for h in habilidades:
                 temp_query = Voto.objects.filter(persona=p, habilidad=h).exclude(valor=0)
                 avg = 0
-                if temp_query.count() >= 3:
+                if temp_query.count() >= MIN_VOTES_FOR_DISPLAY:
                     avg = round(temp_query.aggregate(Avg('valor'))['valor__avg'], 1)
                 temp.append(avg)
                 stats_dict["%d_%d" % (p.pk, h.pk)] = avg
             temp = filter(None, temp)
-            stats_dict['%d_avg' % p.pk] = round(sum(temp, 0.0) / len(temp), 1)
+            stats_dict['%d_avg' % p.pk] = round(sum(temp, 0.0) / (len(temp) or 1), 1)
 
         temp = []
         for h in habilidades:
             temp_query = Voto.objects.filter(habilidad=h).exclude(valor=0)
             avg = 0
-            if temp_query.count() >= 3:
+            if temp_query.count() >= MIN_VOTES_FOR_DISPLAY:
                 avg = round(temp_query.aggregate(Avg('valor'))['valor__avg'], 1)
             temp.append(avg)
             stats_dict['avg_%d' % h.pk] = avg
 
         temp = filter(None, temp)
-        stats_dict['avg_avg'] = round(sum(temp, 0.0) / len(temp), 1)
+        stats_dict['avg_avg'] = round(sum(temp, 0.0) / (len(temp) or 1), 1)
 
         templates_vars = {
             'personas': personas,

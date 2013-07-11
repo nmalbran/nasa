@@ -2,7 +2,7 @@ from django import forms
 
 from vote.models import Votante
 from models import Persona, Habilidad
-from utils import sha1
+from settings import MAX_VOTE_VALUE
 
 class VotanteForm(forms.ModelForm):
     class Meta:
@@ -15,7 +15,7 @@ class VotanteForm(forms.ModelForm):
     def clean_hashed(self):
         hashed = self.cleaned_data.get('hashed')
         try:
-            self._votante_obj = Votante.objects.get(hashed=sha1(hashed))
+            self._votante_obj = Votante.get_votante(hashed)
         except Votante.DoesNotExist:
             raise forms.ValidationError('This user does not exist.')
 
@@ -34,7 +34,7 @@ class VotosForm(forms.Form):
         habilidades = Habilidad.objects.all()
         for p in personas:
             for h in habilidades:
-                self.fields['%d_%d' % (p.pk, h.pk)] = forms.IntegerField(initial=0, max_value=10, min_value=0, widget=forms.TextInput(attrs={'class': 'num-field'}))
+                self.fields['%d_%d' % (p.pk, h.pk)] = forms.IntegerField(initial=0, max_value=MAX_VOTE_VALUE, min_value=0, widget=forms.TextInput(attrs={'class': 'num-field'}))
 
 
 class ChangeUserForm(forms.Form):
@@ -46,7 +46,7 @@ class ChangeUserForm(forms.Form):
     def clean_old_user(self):
         old_user = self.cleaned_data.get('old_user')
         try:
-            self._old_user_obj = Votante.objects.get(hashed=sha1(old_user))
+            self._old_user_obj = Votante.get_votante(old_user)
         except Votante.DoesNotExist:
             raise forms.ValidationError('This user does not exist.')
 
